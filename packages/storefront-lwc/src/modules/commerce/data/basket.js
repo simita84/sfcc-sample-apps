@@ -7,18 +7,11 @@
 /**
  * A basket service to add to basket, load basket and blast off events
  */
-import { apiClient } from '../api/client';
 import gql from 'graphql-tag';
 
-class Basket {
-    basket = {};
-
-    listeners = [];
-
-    isBasketLoaded = false;
-
-    getBasketAttributes = `basketId
+const getBasketAttributes = `basketId
             customerId
+            addProductMessage
             getBasketMessage
             totalProductsQuantity
             shipmentId
@@ -28,199 +21,105 @@ class Basket {
                 productId
                 itemId
                 quantity
-            productName
-            price
-            image
-        }
-        orderTotal
-        orderLevelPriceAdjustment {
-            itemText
-            price
-        }
-        shippingTotal
-        shippingTotalTax
-        taxation
-        taxTotal
-        shippingMethods {
-            defaultShippingMethodId
-            applicableShippingMethods {
-                id
-                name
-                description
+                productName
                 price
-                c_estimatedArrivalTime
-                c_storePickupEnabled
-            }
-        }`;
-
-    /**
-     * Calling Add to the basket BFF.
-     * @param product: the product to add to basket
-     */
-
-    // TODO : wire up the UI quantity selector to pass in quantity to add
-    addToBasket(product, qty) {
-        let pid = product.id;
-        return apiClient
-            .mutate({
-                mutation: gql`
-                mutation {
-                    addProductToBasket(productId: "${pid}", quantity: ${qty}) {
-                      basketId
-                      customerId
-                      addProductMessage
-                      getBasketMessage
-                      totalProductsQuantity
-                      products {
-                        productId
-                        itemId
-                        quantity
-                        productName
-                        price
-                      }
+                imageURL
+                inventory {
+                    ats
+                    backorderable
+                    id
+                    orderable
+                    preorderable
+                    stockLevel
                 }
-            }
-             `,
-            })
-            .then(result => {
-                this.basket = result.data.addProductToBasket;
-                this.isBasketLoaded = true;
-                this.updateBasket('add-to-basket');
-                return this.basket;
-            })
-            .catch(error => {
-                console.error('addToBasket failed with message', error);
-                this.updateBasket('failed-add-to-basket');
-                return this.basket;
-            });
-    }
-
-    updateShippingMethod(basketId, shipmentId, shippingMethodId) {
-        return apiClient
-            .mutate({
-                mutation: gql`
-                    mutation {
-                        updateShippingMethod(basketId: "${basketId}", shipmentId: "${shipmentId}", shippingMethodId: "${shippingMethodId}") {
-                            basketId
-                            customerId
-                            getBasketMessage
-                            totalProductsQuantity
-                            shipmentId
-                            shipmentTotal
-                            selectedShippingMethodId
-                            products {
-                                productId
-                                itemId
-                                quantity
-                                productName
-                                price
-                            }
-                            orderTotal
-                            orderLevelPriceAdjustment {
-                                itemText
-                                price
-                            }
-                            shippingTotal
-                            shippingTotalTax
-                            taxation
-                            taxTotal
-                        }
+                itemTotalAfterDiscount
+                itemTotalNonAdjusted
+                variationAttributes {
+                    id
+                    name
+                    selectedValue {
+                        name
+                        orderable
+                        value
                     }
-                 `,
-            })
-            .then(result => {
-                this.basket = result.data.updateShippingMethod;
-                return this.basket;
-            })
-            .catch(error => {
-                console.error(
-                    'Update Shipping Method failed with message',
-                    error,
-                );
-                return this.basket;
-            });
-    }
-
-    removeItemFromBasket(itemId) {
-        return apiClient
-            .mutate({
-                mutation: gql`
-                    mutation {
-                        removeItemFromBasket(itemId: "${itemId}") {
-                            ${this.getBasketAttributes}
-                        }
                 }
-             `,
-            })
-            .then(result => {
-                this.basket = result.data.removeItemFromBasket;
-                this.isBasketLoaded = true;
-                this.updateBasket('update-basket-totals');
-                return this.basket;
-            })
-            .catch(error => {
-                console.error(
-                    'removeItemFromBasket failed with message',
-                    error,
-                );
-                return this.basket;
-            });
-    }
+                prices {
+                    list
+                    sale
+                }
+                productPromotions {
+                    calloutMsg
+                    promotionalPrice
+                    promotionId
+                }
+            }
+            orderTotal
+            orderLevelPriceAdjustment {
+                itemText
+                price
+            }
+            shippingTotal
+            shippingTotalTax
+            taxation
+            taxTotal
+            shippingMethods {
+                defaultShippingMethodId
+                applicableShippingMethods {
+                    id
+                    name
+                    description
+                    price
+                    c_estimatedArrivalTime
+                    c_storePickupEnabled
+                }
+}`;
 
-    /**
-     * Execute each handler registered
-     * @param {eventType} eventType of the event
-     *
-     */
-    updateBasket(eventType) {
-        this.listeners.forEach(cb => {
-            cb(eventType);
-        });
+export const GET_BASKET = gql`
+query {
+    getBasket {
+        ${getBasketAttributes}
     }
+}`;
 
-    /**
-     * get the quantity of basket if basket is loaded
-     * if first time landing the page, call getCurrentBasket()
-     * @returns {quantity} for miniBasket to display
-     */
-    getBasketQuantity() {
-        if (!this.isBasketLoaded) {
-            this.getCurrentBasket();
+export const ADD_TO_BASKET = gql`
+    mutation addProductToBasket($productId: String!, $quantity: Int!) {
+        addProductToBasket(productId: $productId, quantity: $quantity) {
+            basketId
+            customerId
+            addProductMessage
+            getBasketMessage
+            totalProductsQuantity
+            products {
+                productId
+                itemId
+                quantity
+                productName
+                price
+            }
         }
-        return this.basket.totalProductsQuantity || 0;
     }
+`;
 
-    /**
-     * Get the current basket from BFF.
-     * @returns {Object} basket object
-     */
-    getCurrentBasket() {
-        return apiClient
-            .query({
-                query: gql`
-                    {
-                        getBasket {
-                            ${this.getBasketAttributes}
-                        }
-                    }
-                `,
-            })
-            .then(result => {
-                this.basket = result.data.getBasket;
-                this.isBasketLoaded = true;
-                this.updateBasket('basket-loaded');
-                return this.basket;
-            })
-            .catch(error => {
-                console.warn('Warning: No basket has been created yet!', error);
-                return this.basket;
-            });
+export const UPDATE_BASKET = gql`
+    mutation updateShippingMethod(
+        $basketId: String!
+        $shipmentId: String!
+        $shippingMethodId: String!
+    ) {
+        updateShippingMethod(
+            basketId: $basketId
+            shipmentId: $shipmentId
+            shippingMethodId: $shippingMethodId
+        ) {
+            ${getBasketAttributes}
+        }
     }
+`;
 
-    updateBasketListener(callback) {
-        this.listeners.push(callback);
+export const REMOVE_ITEM_FROM_BASKET = gql`
+    mutation removeItemFromBasket($itemId: String!) {
+        removeItemFromBasket(itemId: $itemId) {
+            ${getBasketAttributes}
+        }
     }
-}
-
-window.basketSingleton = window.basketSingleton || new Basket();
-export const ShoppingBasket = window.basketSingleton;
+`;

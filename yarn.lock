@@ -2536,20 +2536,12 @@
   resolved "https://registry.yarnpkg.com/@lwc/wire-service/-/wire-service-1.4.0-alpha3.tgz#7845b62585b6131621d23b98e385bff95a16b4f6"
   integrity sha512-JIdS1PBX9LkNwAwfTxNQBsQentL3zsc3+VMOWaDjuaKDNw+mP/k/iyM5zclVMFR8qoulUZoBB9tO1etJ3CpnWw==
 
-"@lwce/apollo-client@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@lwce/apollo-client/-/apollo-client-0.0.1.tgz#a3e2f4c6a7f3c3b58d558a6ff6ea459b9892fcdf"
-  integrity sha512-t2rf/vCvgEyIAMRejayl6TUHFck3k4ie3urBR9cDhVnfvAEphj+k0mTiUeC9VUSIXLYhaeQL29f+OOlSdhWqjg==
+"@lwce/apollo-client@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@lwce/apollo-client/-/apollo-client-0.0.2.tgz#8fa6ee25a7c6811a84b6a741160595d491933a33"
+  integrity sha512-g4Oer/6cmcqO2fMesCT80iMxbfe95/FcPvmpCv/M1nqgVo2uq9zsElUj4Ja62QonAxWnWw8oGiIDrNiPyE2fGA==
   dependencies:
     apollo-client "^2.6.4"
-
-"@lwce/router@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@lwce/router/-/router-0.1.1.tgz#9f6238da878f56abf2b8f9ec9531d4b61db997ef"
-  integrity sha512-Qz0U16WbPfDmtVEvD0n9NkBzCKwlVZuZgcN99+blDCv1JFXj/e5LAMi0C9qVVfsHhHbps9oSWfos+HLEnZHgPQ==
-  dependencies:
-    history "^4.10.1"
-    path-to-regexp "^6.1.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -10899,11 +10891,6 @@ path-to-regexp@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-3.2.0.tgz#fa7877ecbc495c601907562222453c43cc204a5f"
   integrity sha512-jczvQbCUS7XmS7o+y1aEO9OBVFeZBQ1MDSEqmO7xSoPgOPoowY/SxLpZ6Vh97/8qHZOteiCKb7gkG9gA2ZUxJA==
-
-path-to-regexp@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.1.0.tgz#0b18f88b7a0ce0bfae6a25990c909ab86f512427"
-  integrity sha512-h9DqehX3zZZDCEm+xbfU0ZmwCGFCAAraPJWMXJ4+v32NjZJilVg3k1TcKsRgIb8IQ/izZSaydDc1OhJCZvs2Dw==
 
 path-type@^1.0.0:
   version "1.1.0"

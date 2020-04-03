@@ -4,10 +4,11 @@
     SPDX-License-Identifier: BSD-3-Clause
     For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
-import { LightningElement } from 'lwc';
-import { ShoppingBasket } from 'commerce/data';
+import { LightningElement, api } from 'lwc';
 
 export default class BasketTotals extends LightningElement {
+    eventChanged = false;
+
     shippingCost = 0.0;
     salesTax = 0.0;
     orderDiscount = 0.0;
@@ -16,35 +17,13 @@ export default class BasketTotals extends LightningElement {
     hasOrderDiscount = false;
     hasShippingDiscount = false;
 
-    constructor() {
-        super();
-        this.setTotals(ShoppingBasket.basket);
-        ShoppingBasket.updateBasketListener(
-            this.updateBasketHandler.bind(this),
-        );
-        // Listen to shippingmethods component change
-        window.addEventListener('update-shipping-method', e => {
-            this.updateShippingMethod(e);
-        });
+    @api set basket(val) {
+        this._basket = val;
+        this.setTotals(this._basket);
     }
 
-    updateBasketHandler(eventType) {
-        if (eventType === 'update-basket-totals') {
-            this.setTotals(ShoppingBasket.basket);
-        }
-    }
-
-    updateShippingMethod(event) {
-        const basketId = ShoppingBasket.basket.basketId;
-        const shipmentId = ShoppingBasket.basket.shipmentId;
-        const shippingMethodId = event.detail.shippingMethodId;
-        ShoppingBasket.updateShippingMethod(
-            basketId,
-            shipmentId,
-            shippingMethodId,
-        ).then(basket => {
-            this.setTotals(basket);
-        });
+    get basket() {
+        return this._basket;
     }
 
     setTotals(basket) {
@@ -57,7 +36,5 @@ export default class BasketTotals extends LightningElement {
         this.orderDiscount = this.hasOrderDiscount
             ? orderLevelPriceAdjustment.price.toFixed(2) * -1.0
             : 0.0;
-        //this.hasShippingDiscount = false;
-        //this.shippingDiscount = 0.00;
     }
 }
