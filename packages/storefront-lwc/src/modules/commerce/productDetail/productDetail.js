@@ -31,6 +31,8 @@ export default class ProductDetail extends LightningElement {
     };
     productId;
     quantity;
+    addToBasketSucceed = false;
+    showToast = false;
 
     @api set pid(val) {
         this.variables = { ...this.variables, productId: val };
@@ -123,10 +125,7 @@ export default class ProductDetail extends LightningElement {
         return canAddToBasket(this.product, this.selectedQty);
     }
 
-    @wire(useMutation, {
-        mutation: ADD_TO_BASKET,
-    })
-    addToBasket;
+    @wire(useMutation, { mutation: ADD_TO_BASKET }) addToBasket;
 
     /**
      * Add product to basket when user clicks `Add to Basket` button
@@ -142,21 +141,18 @@ export default class ProductDetail extends LightningElement {
             };
 
             this.addToBasket.mutate({ variables }).then(() => {
-                this.dispatchEvents();
+                this.showToast = true;
+                if (this.addToBasket.error) {
+                    this.addToBasketSucceed = false;
+                } else {
+                    this.addToBasketSucceed = true;
+                }
             });
         }
     }
 
-    dispatchEvents() {
-        const toastMessageEvent = new CustomEvent('toastmessageevent', {
-            detail: 'add-to-basket',
-        });
-        console.log('event detail: ', toastMessageEvent.detail);
-        this.dispatchEvent(toastMessageEvent);
-    }
-
-    testEvent() {
-        console.log('test');
+    toastMessageDisplayed() {
+        this.showToast = false;
     }
 
     /**
