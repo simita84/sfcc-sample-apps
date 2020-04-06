@@ -116,10 +116,10 @@
                     <div class="coupons-and-promos">
                     </div>
 
-                    <commerce-shippingmethods shipping-label="Shipping" shipping-methods={shippingMethods}
+                    <commerce-shippingmethods onupdateshippingmethod={updateBasket} shipping-label="Shipping" basket={basket} shipping-methods={shippingMethods}
                         selected-shipping-method-id={selectedShippingMethodId}></commerce-shippingmethods>
 
-                    <commerce-basket-totals></commerce-basket-totals>
+                    <commerce-basket-totals basket={basket}></commerce-basket-totals>
 
                     <div class="row">
                         <div class="col-12 checkout-continue">

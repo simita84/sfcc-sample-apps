@@ -5,11 +5,11 @@
     For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
 import { LightningElement, api, wire } from 'lwc';
-import { ShoppingBasket } from 'commerce/data';
 import { canAddToBasket } from './product.helper.js';
-import { useQuery } from '@lwce/apollo-client';
+import { useMutation, useQuery } from '@lwce/apollo-client';
 import '../api/client';
 import QUERY from './gqlQuery';
+import { ADD_TO_BASKET } from 'commerce/data';
 
 /**
  * A product detail component is an interactive component which fetches and displays details about a product.
@@ -29,6 +29,8 @@ export default class ProductDetail extends LightningElement {
         productId: '',
         selectedColor: '',
     };
+    productId;
+    quantity;
 
     @api set pid(val) {
         this.variables = { ...this.variables, productId: val };
@@ -121,12 +123,42 @@ export default class ProductDetail extends LightningElement {
         return canAddToBasket(this.product, this.selectedQty);
     }
 
+    @wire(useMutation, {
+        mutation: ADD_TO_BASKET,
+    })
+    addToBasket;
+
     /**
      * Add product to basket when user clicks `Add to Basket` button
      */
     addToBasketHandler() {
-        ShoppingBasket.addToBasket(this.product, this.selectedQty);
+        if (this.readyToAddToBasket) {
+            this.productId = this.pid;
+            this.quantity = this.selectedQty;
+
+            const variables = {
+                productId: this.productId,
+                quantity: this.quantity,
+            };
+
+            this.addToBasket.mutate({ variables }).then(() => {
+                this.dispatchEvents();
+            });
+        }
     }
+
+    dispatchEvents() {
+        const toastMessageEvent = new CustomEvent('toastmessageevent', {
+            detail: 'add-to-basket',
+        });
+        console.log('event detail: ', toastMessageEvent.detail);
+        this.dispatchEvent(toastMessageEvent);
+    }
+
+    testEvent() {
+        console.log('test');
+    }
+
     /**
      * The click handler for the product detail image carousel to cycle to the next or previous image, left or right.
      * @param event the event object which includes the data from the button clicked, left or right.

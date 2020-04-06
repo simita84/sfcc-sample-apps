@@ -2536,10 +2536,10 @@
   resolved "https://registry.yarnpkg.com/@lwc/wire-service/-/wire-service-1.4.0-alpha3.tgz#7845b62585b6131621d23b98e385bff95a16b4f6"
   integrity sha512-JIdS1PBX9LkNwAwfTxNQBsQentL3zsc3+VMOWaDjuaKDNw+mP/k/iyM5zclVMFR8qoulUZoBB9tO1etJ3CpnWw==
 
-"@lwce/apollo-client@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@lwce/apollo-client/-/apollo-client-0.0.1.tgz#a3e2f4c6a7f3c3b58d558a6ff6ea459b9892fcdf"
-  integrity sha512-t2rf/vCvgEyIAMRejayl6TUHFck3k4ie3urBR9cDhVnfvAEphj+k0mTiUeC9VUSIXLYhaeQL29f+OOlSdhWqjg==
+"@lwce/apollo-client@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@lwce/apollo-client/-/apollo-client-0.0.2.tgz#8fa6ee25a7c6811a84b6a741160595d491933a33"
+  integrity sha512-g4Oer/6cmcqO2fMesCT80iMxbfe95/FcPvmpCv/M1nqgVo2uq9zsElUj4Ja62QonAxWnWw8oGiIDrNiPyE2fGA==
   dependencies:
     apollo-client "^2.6.4"
 

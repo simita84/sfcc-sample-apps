@@ -5,7 +5,6 @@
     For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
 import { LightningElement, api } from 'lwc';
-import { ShoppingBasket } from 'commerce/data';
 import { messagehelper } from 'commerce/data';
 
 /**
@@ -21,25 +20,20 @@ class ToastMessage extends LightningElement {
 
     constructor() {
         super();
-        ShoppingBasket.updateBasketListener(
-            this.updateBasketHandler.bind(this),
-        );
     }
 
-    updateBasketHandler(eventType) {
+    updateBasketHandler(toastMessageEvent) {
         const timeToWait = 3000;
-        if (eventType === 'add-to-basket') {
+        if (toastMessageEvent.detail === 'add-to-basket') {
             this.isVisible = true;
             this.addToBasketSucceed = true;
             messagehelper.setMessageTimeout(this, timeToWait);
-        } else if (eventType === 'failed-add-to-basket') {
+        } else if (toastMessageEvent.detail === 'failed-add-to-basket') {
             this.isVisible = true;
             this.addToBasketSucceed = false;
             messagehelper.setMessageTimeout(this, timeToWait);
         }
     }
-
-    renderedCallback() {}
 }
 
 export default ToastMessage;
