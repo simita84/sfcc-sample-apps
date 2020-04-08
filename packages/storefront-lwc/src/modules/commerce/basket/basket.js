@@ -61,5 +61,16 @@ export default class Basket extends LightningElement {
             .catch(error => {
                 console.log('error received ', error);
             });
+        debugger;
+        let fubar = new CustomEvent('setappheader', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                heading: 'Your Cart',
+                phrase: '',
+                showheader: true,
+            },
+        });
+        this.dispatchEvent(fubar);
     }
 }

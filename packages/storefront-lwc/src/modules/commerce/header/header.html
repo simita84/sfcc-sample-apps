@@ -12,7 +12,7 @@
                 <!-- Desktop -->
                 <div class="col text-right d-none d-md-block logo">
                     <a href="/">
-                        <img class="" src="/images/logo-small.svg" alt="Logo">
+                        <img class="" src="/assets/images/logo-small.svg" alt="Logo">
                     </a>
                 </div>
                 <div class="col text-right d-none d-md-block">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col text-center d-md-none logo">
                     <a href="/">
-                        <img class="" src="/images/logo-small.svg" alt="Logo">
+                        <img class="" src="/assets/images/logo-small.svg" alt="Logo">
                     </a>
                 </div>
                 <div class="col text-right d-md-none mini-basket">
@@ -53,6 +53,23 @@
             </div>
         </div>
     </nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Mobile/Tablet/Desktop -->
+            <template if:true={showHeader}>
+                <div class="col-12 text-center sub-header">
+                    <div class="sub-header-content">
+                        <span class="search-text">{heading}</span>&nbsp;<span class="phrase">{phrase}</span>
+                    </div>
+                </div>
+            </template>
+            <template if:false={showHeader}>
+                <div class="col-12 text-center sub-header-spacer">
+                </div>
+            </template>
+        </div>
+    </div>
 </template>
 
 
