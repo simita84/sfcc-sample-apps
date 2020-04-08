@@ -5,7 +5,6 @@
     For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
 import { LightningElement, wire } from 'lwc';
-import { ShoppingBasket } from 'commerce/data';
 import { useQuery } from '@lwce/apollo-client';
 import gql from 'graphql-tag';
 
@@ -31,14 +30,10 @@ export default class HeaderBasket extends LightningElement {
         }
     }
 
-    constructor() {
-        super();
-        ShoppingBasket.updateBasketListener(
-            this.updateBasketHandler.bind(this),
+    renderedCallback() {
+        window.addEventListener(
+            'headerbasketcount',
+            event => (this.quantity = event.detail),
         );
-    }
-
-    updateBasketHandler() {
-        this.quantity = ShoppingBasket.basket.totalProductsQuantity || 0;
     }
 }

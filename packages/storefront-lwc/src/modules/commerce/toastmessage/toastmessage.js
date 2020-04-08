@@ -9,7 +9,7 @@ import { LightningElement, api } from 'lwc';
 /**
  * ToastMessage component. Renders toastMessage component
  */
-class ToastMessage extends LightningElement {
+export default class ToastMessage extends LightningElement {
     timeToWait = 3000;
     _visible = false;
     @api success;
@@ -28,5 +28,3 @@ class ToastMessage extends LightningElement {
     @api successmessage;
     @api failmessage;
 }
-
-export default ToastMessage;

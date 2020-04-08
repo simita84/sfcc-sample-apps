@@ -33,6 +33,7 @@ export default class ProductDetail extends LightningElement {
     quantity;
     addToBasketSucceed = false;
     showToast = false;
+    headerQuantity;
 
     @api set pid(val) {
         this.variables = { ...this.variables, productId: val };
@@ -146,6 +147,14 @@ export default class ProductDetail extends LightningElement {
                     this.addToBasketSucceed = false;
                 } else {
                     this.addToBasketSucceed = true;
+                    this.headerQuantity = this.addToBasket.data.addProductToBasket.totalProductsQuantity;
+                    this.dispatchEvent(
+                        new CustomEvent('headerbasketcount', {
+                            bubbles: true,
+                            composed: true,
+                            detail: this.headerQuantity,
+                        }),
+                    );
                 }
             });
         }
