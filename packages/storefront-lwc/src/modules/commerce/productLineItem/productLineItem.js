@@ -5,7 +5,6 @@
     For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 */
 import { LightningElement, api } from 'lwc';
-import { ShoppingBasket } from 'commerce/data';
 
 /**
  * Product Line Item component. Renders product line item content in Basket.
