@@ -64,7 +64,7 @@ export default class Basket extends LightningElement {
     removeItemFromBasket;
 
     removeHandler(event) {
-        const itemId = event.srcElement.getAttribute('data-itemid');
+        const itemId = event.detail.itemId;
         const variables = { itemId };
         this.removeItemFromBasket.mutate({ variables }).then(() => {
             this.basket = {
@@ -80,5 +80,7 @@ export default class Basket extends LightningElement {
             ...this.basket,
             ...event.detail.updatedBasket,
         };
+
+        console.log('basket ship: ', this.basket);
     }
 }

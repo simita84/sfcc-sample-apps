@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <template for:each={products} for:item="product" for:index="index">
-                        <commerce-product-line-item product={product} key={product.productId}>
+                        <commerce-product-line-item product={product} key={product.productId} onremovelineitem={removeHandler}>
                         </commerce-product-line-item>
                     </template>
                 </div>

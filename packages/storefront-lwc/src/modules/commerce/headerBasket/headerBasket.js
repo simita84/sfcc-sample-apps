@@ -35,5 +35,12 @@ export default class HeaderBasket extends LightningElement {
             'headerbasketcount',
             event => (this.quantity = event.detail),
         );
+
+        const qty = this.quantity;
+
+        window.addEventListener(
+            'removelineitem',
+            event => (this.quantity = qty - event.detail.quantity),
+        );
     }
 }

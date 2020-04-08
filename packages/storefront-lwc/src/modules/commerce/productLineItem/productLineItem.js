@@ -41,15 +41,18 @@ export default class ProductLineItem extends LightningElement {
         return null;
     }
 
-    removeHandler(event) {
+    removeHandler() {
+        const quantity = this.product.quantity;
         const itemId = event.srcElement.getAttribute('data-itemid');
-        ShoppingBasket.removeItemFromBasket(itemId)
-            .then(basket => {
-                this.basket = basket;
-                this.products = basket.products ? basket.products : [];
-            })
-            .catch(error => {
-                console.error('Error received in removing product', error);
-            });
+        this.dispatchEvent(
+            new CustomEvent('removelineitem', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    itemId,
+                    quantity,
+                },
+            }),
+        );
     }
 }
