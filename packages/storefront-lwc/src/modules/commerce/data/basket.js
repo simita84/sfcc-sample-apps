@@ -23,14 +23,6 @@ const getBasketAttributes = `basketId
                 productName
                 price
                 imageURL
-                inventory {
-                    ats
-                    backorderable
-                    id
-                    orderable
-                    preorderable
-                    stockLevel
-            }
             itemTotalAfterDiscount
             itemTotalNonAdjusted
             variationAttributes {

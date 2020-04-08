@@ -80,7 +80,5 @@ export default class Basket extends LightningElement {
             ...this.basket,
             ...event.detail.updatedBasket,
         };
-
-        console.log('basket ship: ', this.basket);
     }
 }
